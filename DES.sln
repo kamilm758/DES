@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29418.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DES", "DES\DES.csproj", "{3008C687-5412-46EC-A051-9FA4B5F9F334}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DES.Test", "DES.Test\DES.Test.csproj", "{3D6315A6-9302-4A2E-AE8B-DDDB65BDEF4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3008C687-5412-46EC-A051-9FA4B5F9F334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3008C687-5412-46EC-A051-9FA4B5F9F334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3008C687-5412-46EC-A051-9FA4B5F9F334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3008C687-5412-46EC-A051-9FA4B5F9F334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D6315A6-9302-4A2E-AE8B-DDDB65BDEF4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D6315A6-9302-4A2E-AE8B-DDDB65BDEF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D6315A6-9302-4A2E-AE8B-DDDB65BDEF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D6315A6-9302-4A2E-AE8B-DDDB65BDEF4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0CE4DBD6-755B-4FCB-BE68-5EE9CDC4E956}
+	EndGlobalSection
+EndGlobal
