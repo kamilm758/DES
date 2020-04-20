@@ -39,9 +39,9 @@ namespace DES
             bool[] result=new bool[0];
             for(int i=0; i < xorResult.Length; i+=6)
             {
-                bool[] currentByte = xorResult.Skip(i).Take(6).ToArray();
-                int boundaryBitsDecimalValue = BitsHelper.ConvertBinaryToDecimalValue(new bool[] { currentByte[0], currentByte[5] });
-                int internalValues = BitsHelper.ConvertBinaryToDecimalValue(currentByte.Skip(1).Take(4).ToArray());
+                bool[] currentBits = xorResult.Skip(i).Take(6).ToArray();
+                int boundaryBitsDecimalValue = BitsHelper.ConvertBinaryToDecimalValue(new bool[] { currentBits[0], currentBits[5] });
+                int internalValues = BitsHelper.ConvertBinaryToDecimalValue(currentBits.Skip(1).Take(4).ToArray());
                 result = (result.Concat(BitsHelper.ConvertDecimalToFourBits(Globals.sBoxArray[boundaryBitsDecimalValue, internalValues]))).ToArray();
             }
             return Permute(Globals.permuteArrayForFunctionRK,result);
