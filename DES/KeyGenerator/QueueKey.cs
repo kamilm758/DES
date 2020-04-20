@@ -9,9 +9,9 @@ namespace DES.KeyGenerator
 {
     public class QueueKey
     {
-        public bool[] _c = new bool[28];
-        public bool[] _d = new bool[28];
-        public List<bool[]> _keys = new List<bool[]>();
+        private bool[] _c = new bool[28];
+        private bool[] _d = new bool[28];
+        private List<bool[]> _keys = new List<bool[]>();
         public QueueKey(bool[] key)
         {
             PermuteChoice1(key);

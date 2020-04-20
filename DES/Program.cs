@@ -39,10 +39,10 @@ namespace DES
 
             //Loop
             //Foreach block
-            for(int i=0;i<blocks.Length;i++)
+            for (int i = 0; i < blocks.Length; i++)
             {
                 //Repeat 15 times
-                for(int j=0;j<15;j++)
+                for (int j = 0; j < 15; j++)
                 {
                     //Step 3 - Function f(R, K):
                     //Step 3.1 - Extend right side

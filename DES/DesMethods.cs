@@ -10,9 +10,9 @@ namespace DES
     {
         public static bool[] Permute(int[] permutationTable, bool[] input)
         {
-            if (input.Length < 64)
-                System.Diagnostics.Debug.WriteLine("Niepelny blok, dlugosc {0}", input.Length);
-            bool[] result = new bool[64];
+            if (input.Length!=permutationTable.Length)
+                System.Diagnostics.Debug.WriteLine("Tabele muszą być tej samej wielkości");
+            bool[] result = new bool[input.Length];
             for (int i = 0; i < input.Length; i++)
             {
                 int indexOfCurrentBit = permutationTable[i];
@@ -30,6 +30,21 @@ namespace DES
                 output[i] = input[currentIndex];
             }
             return output;
+        }
+
+        public static bool[] DESFunctionRK(bool[] rBitArray, bool[] key)
+        {
+            bool[] extendedRBitArray = Extend(Globals.E,rBitArray);
+            bool[] xorResult = BitsHelper.XORTwoBitArrays(extendedRBitArray, key);
+            bool[] result=new bool[0];
+            for(int i=0; i < xorResult.Length; i+=6)
+            {
+                bool[] currentByte = xorResult.Skip(i).Take(6).ToArray();
+                int boundaryBitsDecimalValue = BitsHelper.ConvertBinaryToDecimalValue(new bool[] { currentByte[0], currentByte[5] });
+                int internalValues = BitsHelper.ConvertBinaryToDecimalValue(currentByte.Skip(1).Take(4).ToArray());
+                result = (result.Concat(BitsHelper.ConvertDecimalToFourBits(Globals.sBoxArray[boundaryBitsDecimalValue, internalValues]))).ToArray();
+            }
+            return Permute(Globals.permuteArrayForFunctionRK,result);
         }
     }
 }
