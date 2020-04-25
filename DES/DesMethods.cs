@@ -11,22 +11,13 @@ namespace DES
         public static bool[] Permute(int[] permutationTable, bool[] input)
         {
             if (input.Length != permutationTable.Length)
-                throw new ArgumentException("Tabele muszą być tej samej wielkości");
+                throw new ArgumentException("Permutation array length did not match argument array length");
             bool[] result = new bool[input.Length];
             for(int i = 0; i < permutationTable.Length; i++)
             {
                 int currentIndex = permutationTable[i];
                 result[i] = input[currentIndex];
             }
-            //for (int i = 0; i < input.Length; i++)
-            //{
-            //    int indexOfCurrentBit = permutationTable[i];
-            //    if(indexOfCurrentBit == 33)
-            //    {
-            //        int x = 0;
-            //    }
-            //    result[indexOfCurrentBit] = input[i];
-            //}
             return result;
         }
 
@@ -44,19 +35,7 @@ namespace DES
         public static bool[] DESFunctionRK(bool[] rBitArray, bool[] key)
         {
             bool[] extendedRBitArray = Extend(Globals.E,rBitArray);
-
-            //System.Diagnostics.Debug.WriteLine("Extended right side: ");
-            //foreach (var s in BitsHelper.ConvertToString(extendedRBitArray))
-            //    System.Diagnostics.Debug.Write(s);
-            //System.Diagnostics.Debug.WriteLine("");
-
             bool[] xorResult = BitsHelper.XORTwoBitArrays(extendedRBitArray, key);
-
-            //System.Diagnostics.Debug.WriteLine("Xor: ");
-            //foreach (var s in BitsHelper.ConvertToString(xorResult))
-            //    System.Diagnostics.Debug.Write(s);
-            //System.Diagnostics.Debug.WriteLine("");
-
             bool[] result=new bool[0];
             for(int i=0; i < xorResult.Length; i+=6)
             {
