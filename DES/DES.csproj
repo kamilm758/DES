@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BitsHelper.cs" />
     <Compile Include="DesMethods.cs" />
+    <Compile Include="DesTester.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="KeyGenerator\QueueKey.cs" />

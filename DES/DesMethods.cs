@@ -10,8 +10,8 @@ namespace DES
     {
         public static bool[] Permute(int[] permutationTable, bool[] input)
         {
-            if (input.Length!=permutationTable.Length)
-                System.Diagnostics.Debug.WriteLine("Tabele muszą być tej samej wielkości");
+            if (input.Length != permutationTable.Length)
+                throw new ArgumentException("Tabele muszą być tej samej wielkości");
             bool[] result = new bool[input.Length];
             for (int i = 0; i < input.Length; i++)
             {
@@ -39,10 +39,11 @@ namespace DES
             bool[] result=new bool[0];
             for(int i=0; i < xorResult.Length; i+=6)
             {
+                int whichSbox = i / 6;
                 bool[] currentBits = xorResult.Skip(i).Take(6).ToArray();
                 int boundaryBitsDecimalValue = BitsHelper.ConvertBinaryToDecimalValue(new bool[] { currentBits[0], currentBits[5] });
                 int internalValues = BitsHelper.ConvertBinaryToDecimalValue(currentBits.Skip(1).Take(4).ToArray());
-                result = (result.Concat(BitsHelper.ConvertDecimalToFourBits(Globals.sBoxArray[boundaryBitsDecimalValue, internalValues]))).ToArray();
+                result = (result.Concat(BitsHelper.ConvertDecimalToFourBits(Globals.sBoxArrays[whichSbox][boundaryBitsDecimalValue, internalValues]))).ToArray();
             }
             return Permute(Globals.permuteArrayForFunctionRK,result);
         }
