@@ -87,13 +87,25 @@ namespace DES
             for (int i = 0; i < blocks.Count; i++)
             {
                 leftSide.Add(blocks[i].Where((x, index) => index < 32).ToArray());
+                System.Diagnostics.Debug.WriteLine("[{0}] Left side: ", i);
+                foreach(var s in BitsHelper.ConvertToString(leftSide[i]))
+                    System.Diagnostics.Debug.Write(s);
+                System.Diagnostics.Debug.WriteLine("");
             }
             for (int i = 0; i < blocks.Count; i++)
             {
                 rightSide.Add(blocks[i].Where((x, index) => index >= 32 && index < 64).ToArray());
+                System.Diagnostics.Debug.WriteLine("[{0}] Right side: ", i);
+                foreach (var s in BitsHelper.ConvertToString(rightSide[i]))
+                    System.Diagnostics.Debug.Write(s);
+                System.Diagnostics.Debug.WriteLine("");
             }
             //DebugInfoBlock18(blocks, leftSide, rightSide);
             QueueKey key = new QueueKey(Globals.ExampleKey);
+            System.Diagnostics.Debug.WriteLine("[{0}] Example key: ");
+            foreach (var s in Globals.ExampleKeyInt)
+                System.Diagnostics.Debug.Write(s);
+            System.Diagnostics.Debug.WriteLine("");
             //Loop
             //Foreach block
             for (int i = 0; i < blocks.Count; i++)
@@ -108,7 +120,7 @@ namespace DES
                     for (j = 0; j < 15; j++)
                     {
                         //Copy right side to assign it to left side later
-                        var rightSideCopy = rightSide[i];
+                        var rightSideCopy = (bool[])rightSide[i].Clone();
                         //Step 3 - Function f(R, K):
                         //Step 3.1 - Extend right side
                         //Step 3.2 - Xor(extended, K) [nie wiem skad K]
@@ -118,10 +130,32 @@ namespace DES
                         //var right = DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j));
                         //rightSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], right);
 
+                        System.Diagnostics.Debug.WriteLine("[{0}] Key: ", j);
+                        foreach (var s in BitsHelper.ConvertToString(key.GetKey(j)))
+                            System.Diagnostics.Debug.Write(s);
+                        System.Diagnostics.Debug.WriteLine("");
+
+
+                        System.Diagnostics.Debug.WriteLine("[{0}] RK: ", j);
+                        foreach (var s in BitsHelper.ConvertToString(DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j))))
+                            System.Diagnostics.Debug.Write(s);
+                        System.Diagnostics.Debug.WriteLine("");
+
                         rightSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j)));
 
                         //Step 4 - Assign left side
-                        leftSide[i] = rightSideCopy;
+                        leftSide[i] = (bool[])rightSideCopy.Clone();
+
+                        System.Diagnostics.Debug.WriteLine("[{0}] Left side: ", j);
+                        foreach (var s in BitsHelper.ConvertToString(leftSide[i]))
+                            System.Diagnostics.Debug.Write(s);
+                        System.Diagnostics.Debug.WriteLine("");
+
+                        System.Diagnostics.Debug.WriteLine("[{0}] Right side: ", j);
+                        foreach (var s in BitsHelper.ConvertToString(rightSide[i]))
+                            System.Diagnostics.Debug.Write(s);
+                        System.Diagnostics.Debug.WriteLine("");
+
                     }
                 }
                 //Decryption -> Keys from 15 to 0
@@ -129,27 +163,27 @@ namespace DES
                 {
                     for(j = 15; j > 0; j--)
                     {
-                        var rightSideCopy = rightSide[i];
+                        var rightSideCopy = (bool[])rightSide[i].Clone();
                         rightSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j)));
-                        leftSide[i] = rightSideCopy;
+                        leftSide[i] = (bool[])rightSideCopy.Clone();
                     }
                 }
                 //16th is dirrerent (prawa z lewa sie nie zamieniaja)
 
                 //1 (zamiana dwa razy)
 
-                //var rightSideCopy2 = rightSide[i];
-                //rightSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j)));
-                //leftSide[i] = rightSideCopy2;
+                var rightSideCopy2 = (bool[])rightSide[i].Clone();
+                rightSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j)));
+                leftSide[i] = (bool[])rightSideCopy2.Clone();
 
-                //var cpy = rightSide[i];
-                //rightSide[i] = leftSide[i];
-                //leftSide[i] = cpy;
+                var cpy = rightSide[i];
+                rightSide[i] = leftSide[i];
+                leftSide[i] = cpy;
 
-                //2 
-                var leftSideCpy = leftSide[i];
-                leftSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j)));
-                rightSide[i] = leftSideCpy;
+                ////2 
+                //var leftSideCpy = leftSide[i];
+                //leftSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j)));
+                //rightSide[i] = leftSideCpy;
 
             }
             //Step (N - 2) - Make sure output is written to "blocks" structure
