@@ -45,17 +45,17 @@ namespace DES
         {
             bool[] extendedRBitArray = Extend(Globals.E,rBitArray);
 
-            System.Diagnostics.Debug.WriteLine("Extended right side: ");
-            foreach (var s in BitsHelper.ConvertToString(extendedRBitArray))
-                System.Diagnostics.Debug.Write(s);
-            System.Diagnostics.Debug.WriteLine("");
+            //System.Diagnostics.Debug.WriteLine("Extended right side: ");
+            //foreach (var s in BitsHelper.ConvertToString(extendedRBitArray))
+            //    System.Diagnostics.Debug.Write(s);
+            //System.Diagnostics.Debug.WriteLine("");
 
             bool[] xorResult = BitsHelper.XORTwoBitArrays(extendedRBitArray, key);
 
-            System.Diagnostics.Debug.WriteLine("Xor: ");
-            foreach (var s in BitsHelper.ConvertToString(xorResult))
-                System.Diagnostics.Debug.Write(s);
-            System.Diagnostics.Debug.WriteLine("");
+            //System.Diagnostics.Debug.WriteLine("Xor: ");
+            //foreach (var s in BitsHelper.ConvertToString(xorResult))
+            //    System.Diagnostics.Debug.Write(s);
+            //System.Diagnostics.Debug.WriteLine("");
 
             bool[] result=new bool[0];
             for(int i=0; i < xorResult.Length; i+=6)

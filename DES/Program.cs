@@ -31,55 +31,27 @@ namespace DES
             int choice = Convert.ToInt32(Console.ReadLine());
 
             //Dodac jedynke a potem zera
-            //if (choice == 0)
-            //{
-            //    EncryptionFix(blocks);
-            //}
-            //else if (choice == 1)
-            //{
-            //    //TODO: Usuwac zera z konca az do napotkania jedynki (jedynke tez usunac)
-            //    int currentIndex = 63;
-            //    for(; currentIndex >= 0; currentIndex--)
-            //    {
-            //        if (blocks[blocks.Count - 1][currentIndex] != false)
-            //        {
-            //            break;
-            //        }
-            //    }
-            //    //Usunac część bloku
-            //    if(currentIndex != 0)
-            //    {
-            //        int howManyBoolsToTake = currentIndex + 1;
-            //        blocks[blocks.Count - 1] = blocks[blocks.Count - 1].Take(howManyBoolsToTake).ToArray();
-            //    }
-            //    //Usunac pelny blok
-            //    else
-            //    {
-            //        blocks.RemoveAt(blocks.Count - 1);
-            //    }
-            //    //Nie wiem co z niepelnym blokiem bo bedzie problem z permutacja itp...
-            //}
-            //else
-            //{
-            //    throw new ArgumentException("Invalid choice");
-            //}
+            if (choice == 0)
+            {
+                EncryptionFix(blocks);
+            }
 
             for (int i = 0; i < blocks.Count; i++)
             {
-                System.Diagnostics.Debug.WriteLine("[{0}] Original block: ", i);
-                foreach (var b in BitsHelper.ConvertToString(blocks[i]))
-                    System.Diagnostics.Debug.Write(b);
-                System.Diagnostics.Debug.WriteLine("");
+                //System.Diagnostics.Debug.WriteLine("[{0}] Original block: ", i);
+                //foreach (var b in BitsHelper.ConvertToString(blocks[i]))
+                //    System.Diagnostics.Debug.Write(b);
+                //System.Diagnostics.Debug.WriteLine("");
             }
 
             //Step 1 - Initial Permutation
             for (int i = 0; i < blocks.Count; i++)
             {
                 blocks[i] = DesMethods.Permute(Globals.IP, blocks[i]);
-                System.Diagnostics.Debug.WriteLine("[{0}] Permuted block: ", i);
-                foreach(var b in BitsHelper.ConvertToString(blocks[i]))
-                    System.Diagnostics.Debug.Write(b);
-                System.Diagnostics.Debug.WriteLine("");
+                //System.Diagnostics.Debug.WriteLine("[{0}] Permuted block: ", i);
+                //foreach(var b in BitsHelper.ConvertToString(blocks[i]))
+                //    System.Diagnostics.Debug.Write(b);
+                //System.Diagnostics.Debug.WriteLine("");
             }
             //Step 2 - Divide each block into left and right side
             List<bool[]> leftSide = new List<bool[]>();
@@ -87,25 +59,25 @@ namespace DES
             for (int i = 0; i < blocks.Count; i++)
             {
                 leftSide.Add(blocks[i].Where((x, index) => index < 32).ToArray());
-                System.Diagnostics.Debug.WriteLine("[{0}] Left side: ", i);
-                foreach(var s in BitsHelper.ConvertToString(leftSide[i]))
-                    System.Diagnostics.Debug.Write(s);
-                System.Diagnostics.Debug.WriteLine("");
+                //System.Diagnostics.Debug.WriteLine("[{0}] Left side: ", i);
+                //foreach(var s in BitsHelper.ConvertToString(leftSide[i]))
+                //    System.Diagnostics.Debug.Write(s);
+                //System.Diagnostics.Debug.WriteLine("");
             }
             for (int i = 0; i < blocks.Count; i++)
             {
                 rightSide.Add(blocks[i].Where((x, index) => index >= 32 && index < 64).ToArray());
-                System.Diagnostics.Debug.WriteLine("[{0}] Right side: ", i);
-                foreach (var s in BitsHelper.ConvertToString(rightSide[i]))
-                    System.Diagnostics.Debug.Write(s);
-                System.Diagnostics.Debug.WriteLine("");
+                //System.Diagnostics.Debug.WriteLine("[{0}] Right side: ", i);
+                //foreach (var s in BitsHelper.ConvertToString(rightSide[i]))
+                //    System.Diagnostics.Debug.Write(s);
+                //System.Diagnostics.Debug.WriteLine("");
             }
             //DebugInfoBlock18(blocks, leftSide, rightSide);
             QueueKey key = new QueueKey(Globals.ExampleKey);
-            System.Diagnostics.Debug.WriteLine("[{0}] Example key: ");
-            foreach (var s in Globals.ExampleKeyInt)
-                System.Diagnostics.Debug.Write(s);
-            System.Diagnostics.Debug.WriteLine("");
+            //System.Diagnostics.Debug.WriteLine("[{0}] Example key: ");
+            //foreach (var s in Globals.ExampleKeyInt)
+            //    System.Diagnostics.Debug.Write(s);
+            //System.Diagnostics.Debug.WriteLine("");
             //Loop
             //Foreach block
             for (int i = 0; i < blocks.Count; i++)
@@ -130,31 +102,31 @@ namespace DES
                         //var right = DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j));
                         //rightSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], right);
 
-                        System.Diagnostics.Debug.WriteLine("[{0}] Key: ", j);
-                        foreach (var s in BitsHelper.ConvertToString(key.GetKey(j)))
-                            System.Diagnostics.Debug.Write(s);
-                        System.Diagnostics.Debug.WriteLine("");
+                        //System.Diagnostics.Debug.WriteLine("[{0}] Key: ", j);
+                        //foreach (var s in BitsHelper.ConvertToString(key.GetKey(j)))
+                        //    System.Diagnostics.Debug.Write(s);
+                        //System.Diagnostics.Debug.WriteLine("");
 
 
-                        System.Diagnostics.Debug.WriteLine("[{0}] RK: ", j);
-                        foreach (var s in BitsHelper.ConvertToString(DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j))))
-                            System.Diagnostics.Debug.Write(s);
-                        System.Diagnostics.Debug.WriteLine("");
+                        //System.Diagnostics.Debug.WriteLine("[{0}] RK: ", j);
+                        //foreach (var s in BitsHelper.ConvertToString(DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j))))
+                        //    System.Diagnostics.Debug.Write(s);
+                        //System.Diagnostics.Debug.WriteLine("");
 
                         rightSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j)));
 
                         //Step 4 - Assign left side
                         leftSide[i] = (bool[])rightSideCopy.Clone();
 
-                        System.Diagnostics.Debug.WriteLine("[{0}] Left side: ", j);
-                        foreach (var s in BitsHelper.ConvertToString(leftSide[i]))
-                            System.Diagnostics.Debug.Write(s);
-                        System.Diagnostics.Debug.WriteLine("");
+                        //System.Diagnostics.Debug.WriteLine("[{0}] Left side: ", j);
+                        //foreach (var s in BitsHelper.ConvertToString(leftSide[i]))
+                        //    System.Diagnostics.Debug.Write(s);
+                        //System.Diagnostics.Debug.WriteLine("");
 
-                        System.Diagnostics.Debug.WriteLine("[{0}] Right side: ", j);
-                        foreach (var s in BitsHelper.ConvertToString(rightSide[i]))
-                            System.Diagnostics.Debug.Write(s);
-                        System.Diagnostics.Debug.WriteLine("");
+                        //System.Diagnostics.Debug.WriteLine("[{0}] Right side: ", j);
+                        //foreach (var s in BitsHelper.ConvertToString(rightSide[i]))
+                        //    System.Diagnostics.Debug.Write(s);
+                        //System.Diagnostics.Debug.WriteLine("");
 
                     }
                 }
@@ -196,6 +168,10 @@ namespace DES
             {
                 blocks[i] = DesMethods.Permute(Globals.IPT, blocks[i]);
             }
+            if (choice == 1)
+            {
+                DecryptionFix(blocks);
+            }
             //Step N - write to file
             byte[][] output = new byte[blocks.Count][];
             for (int i = 0; i < output.Length; i++)
@@ -212,6 +188,31 @@ namespace DES
             }
             Console.WriteLine("Success");
             Console.ReadKey();
+        }
+
+        private static void DecryptionFix(List<bool[]> blocks)
+        {
+            //TODO: Usuwac zera z konca az do napotkania jedynki (jedynke tez usunac)
+            int currentIndex = 63;
+            for (; currentIndex >= 0; currentIndex--)
+            {
+                if (blocks[blocks.Count - 1][currentIndex] != false)
+                {
+                    break;
+                }
+            }
+            //Usunac część bloku
+            if (currentIndex != 0)
+            {
+                int howManyBoolsToTake = currentIndex + 1;
+                blocks[blocks.Count - 1] = blocks[blocks.Count - 1].Take(howManyBoolsToTake).ToArray();
+            }
+            //Usunac pelny blok
+            else
+            {
+                blocks.RemoveAt(blocks.Count - 1);
+            }
+            //Nie wiem co z niepelnym blokiem bo bedzie problem z permutacja itp...
         }
 
         private static void EncryptionFix(List<bool[]> blocks)
