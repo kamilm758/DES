@@ -27,6 +27,8 @@ namespace DES
                     .ToList();
             Console.Write("Encrypt (0) or Decrypt (1): ");
             int choice = Convert.ToInt32(Console.ReadLine());
+            if (choice != 0 && choice != 1)
+                throw new ArgumentException("Invalid mode");
 
             //Step 1 - Add padding if encryption
             if (choice == (int)Mode.Encryption)
