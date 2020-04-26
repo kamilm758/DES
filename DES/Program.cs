@@ -68,7 +68,7 @@ namespace DES
 
             Console.WriteLine("Enter the key:");
             string enteredKey = Console.ReadLine();
-            if (enteredKey.Length != 16)
+            if (enteredKey.Length != 16 && enteredKey!="0")
                 throw new Exception("The key must be 8 bytes long");
             QueueKey key = new QueueKey(enteredKey == "0" ? Globals.ExampleKey : BitsHelper.ConvertHexToBits(enteredKey));
             //Loop
