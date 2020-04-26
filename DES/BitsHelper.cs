@@ -65,5 +65,16 @@ namespace DES
             string binaryValue = string.Join("", bitArray.Select(s => s ? "1" : "0"));
             return Convert.ToInt32(binaryValue, 2);
         }
+
+        public static bool[] ConvertHexToBits(string hexValue)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char hexSymbol in hexValue)
+                sb.Append(Globals.HexCharacters[hexSymbol]);
+
+            string bitString = sb.ToString();
+            bool[] result = bitString.Select(s => s == '0' ? false : true).ToArray();
+            return result;
+        }
     }
 }

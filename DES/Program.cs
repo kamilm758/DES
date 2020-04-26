@@ -16,6 +16,19 @@ namespace DES
     {
         static void Main(string[] args)
         {
+            try
+            {
+                Proceed();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                Console.ReadKey();
+            }
+        }
+
+        private static void Proceed()
+        {
             //Step 0 - Read .bin file into blocks
             Console.Write("Input file name: ");
             string fileName = Console.ReadLine();
@@ -52,7 +65,12 @@ namespace DES
             {
                 rightSide.Add(blocks[i].Where((x, index) => index >= 32 && index < 64).ToArray());
             }
-            QueueKey key = new QueueKey(Globals.ExampleKey);
+
+            Console.WriteLine("Enter the key:");
+            string enteredKey = Console.ReadLine();
+            if (enteredKey.Length != 16)
+                throw new Exception("The key must be 8 bytes long");
+            QueueKey key = new QueueKey(enteredKey == "0" ? Globals.ExampleKey : BitsHelper.ConvertHexToBits(enteredKey));
             //Loop
             //Foreach block
             for (int i = 0; i < blocks.Count; i++)
@@ -60,7 +78,7 @@ namespace DES
                 int j;
                 //Repeat 15 times
                 //Encryption -> Keys from 0 to 15
-                if(choice == (int)Mode.Encryption)
+                if (choice == (int)Mode.Encryption)
                 {
                     for (j = 0; j < 15; j++)
                     {
@@ -82,7 +100,7 @@ namespace DES
                 //Decryption -> Keys from 15 to 0
                 else
                 {
-                    for(j = 15; j > 0; j--)
+                    for (j = 15; j > 0; j--)
                     {
                         var rightSideCopy = (bool[])rightSide[i].Clone();
                         rightSide[i] = BitsHelper.XORTwoBitArrays(leftSide[i], DesMethods.DESFunctionRK(rightSide[i], key.GetKey(j)));
@@ -102,7 +120,7 @@ namespace DES
 
             }
             //Step 6 - Concat left and right sides to "blocks" structure
-            for(int i = 0; i < blocks.Count; i++)
+            for (int i = 0; i < blocks.Count; i++)
             {
                 blocks[i] = leftSide[i].Concat(rightSide[i]).ToArray();
             }
@@ -122,7 +140,7 @@ namespace DES
             {
                 output[i] = BitsHelper.ConvertToBytes(blocks[i]);
             }
-            if(choice == (int)Mode.Encryption)
+            if (choice == (int)Mode.Encryption)
             {
                 FileManager.Write("Encrypted-" + fileName, output);
             }
